@@ -75,13 +75,9 @@ def compute_fusion_loss_fixed(model, images, labels,
                               cam1, cam2, w1, w2,
                               alpha=0.1, beta=0.1, lambda_expert=0.2,
                               threshold=0.5, temp=10.0):
+     """
+    固定权重融合模型的损失函数：仅使用融合分类损失。
+    忽略所有可解释性相关的损失项。
     """
-    与原 compute_fusion_loss 完全相同，仅用于保持接口一致。
-    实际使用时可以直接从 Loss 导入。
-    """
-    # 为避免重复代码，假设从 Loss 导入原始函数
-    return compute_fusion_loss(model, images, labels,
-                               logits_fused, logits1, logits2,
-                               cam1, cam2, w1, w2,
-                               alpha, beta, lambda_expert,
-                               threshold, temp)
+     ce_fused = F.cross_entropy(logits_fused, labels)
+     return ce_fused
